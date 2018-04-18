@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-3.3.1.min.js"></script>
+</head>
+<style>
+    .main{
+        width: 500px;
+        height: 333px;
+        padding: 20px;
+        margin: 100px auto;
+        overflow: auto;
+        border: 1px dashed #dfdfdf;
+        position: relative;
+        text-align: center;
+    }
+    .father{
+        width: 500px;
+        height: 333px;
+        margin: 0 auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -166.5px;
+        margin-left: -250px;
+    }
+    .child{
+        height: 100%;
+        width: 100%;
+    }
+    /*.child:hover{*/
+        /*-webkit-transform: scale(1.2);*/
+        /*-moz-transform: scale(1.2);*/
+        /*-ms-transform: scale(1.2);*/
+        /*-o-transform: scale(1.2);*/
+        /*transform: scale(1.2);*/
+    /*}*/
+    .btns{
+        padding: 15px 0;
+    }
+    .btns button{
+        display: inline-block;
+        padding: 8px 10px;
+        border: none;
+        color: #7a7a7a;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        margin-right: 10px;
+        outline: none;
+    }
+    .btns button+button{
+        margin-right: 10px;
+    }
+    .btns button:active{
+        color: #fff;
+        background: #36c3ff;
+    }
+</style>
+<body>
+    <div class="main">
+        <div class="father" id="father" >
+            <img src="1.jpg" class="child" id="childImg" alt="">
+        </div>
+
+    </div>
+    <div class="btns">
+        <button id="enlarge">放大</button>
+        <button id="narrow">缩小</button>
+        <button id="rotate">旋转</button>
+        <button id="reset">还原</button>
+    </div>
+<script>
+
+    var enlarge = $('#enlarge');
+    var narrow = $('#narrow');
+    var rotate = $('#rotate');
+    var reset = $('#reset');
+
+
+
+    var fatherH,//图片的高度
+        fatherW,//图片的宽度
+        father = $('#father');//图片元素
+    //存储一次初始值
+    initialH = father.innerHeight(); //获取盒子的高度
+    initialW = father.innerWidth(); //获取盒子的宽度
+
+    function WH(){
+        fatherH = father.innerHeight(); //获取盒子的高度
+        fatherW = father.innerWidth(); //获取盒子的宽度
+    }
+
+    //放大
+    enlarge.click(function () {
+        WH();
+        father.css({
+            'width':fatherW*1.1+'px',
+            'height':fatherH*1.1+'px'
+        });
+        scroll();
+    });
+    function scroll(){
+        father.css({
+            'top':($('.main').height()-father.outerHeight()/2 + $('.main').scrollTop())+31,
+            'left':($('.main').width()-father.outerWidth()/2 + $('.main').scrollLeft())+31
+        });
+        $('.main').scrollLeft(father.outerWidth()/4);
+        $('.main').scrollTop(father.outerHeight()/4);
+    }
+
+    //缩小
+    narrow.click(function () {
+        WH();
+        father.css({
+            'width':fatherW/1.1+'px',
+            'height':fatherH/1.1+'px'
+        });
+        scroll();
+    });
+
+    //旋转
+    var Deg = 0;//旋转度数
+    rotate.click(function () {  //正常的方式应该是旋转main元素
+        WH();
+        Deg +=45;
+        father.css({
+        '-webkit-transform': 'rotateZ('+Deg+'deg)',
+        '-moz-transform': 'rotateZ('+Deg+'deg)',
+        '-ms-transform': 'rotateZ('+Deg+'deg)',
+        '-o-transform': 'rotateZ('+Deg+'deg)',
+        'transform': 'rotateZ('+Deg+'deg)'
+        })
+
+    });
+
+    //重置
+    reset.click(function () {
+        // WH();
+        father.css({
+            'width':initialW,
+            'height':initialH,
+            'top': '50%',
+            'left': '50%',
+            'margin-top': '-166.5px',
+            'margin-left': '-250px'
+        });
+        father.css({
+            '-webkit-transform': 'rotateZ(0deg)',
+            '-moz-transform': 'rotateZ(0deg)',
+            '-ms-transform': 'rotateZ(0deg)',
+            '-o-transform': 'rotateZ(0deg)',
+            'transform': 'rotateZ(0deg)'
+        })
+    })
+
+
+
+
+</script>
+
+</body>
+</html>
